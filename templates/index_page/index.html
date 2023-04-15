@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+{% load my_filters %}
+{% load my_filter2 %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/gridbox.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" />
+    <script src="/static/js/echarts.min.js"></script>
+    <script src="/static/js/china.js"></script>
+    <style>
+        .cover::after {
+        content: "";
+        position: absolute;
+        left: 56px;
+        top: 60px;
+        width: 205px;
+        height: 180px;
+        background: url("/static/cover/album_cover.png") 0 0 no-repeat;
+        transform: scale(1.2);
+    }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+
+    <div class="parent" >
+        <div class="div1">
+
+        </div>
+        <div class="div2"> 
+            <a class="cover" href="{{song_url}}" >
+                <img class="cover_pic" src="{{img_url}}" alt="">
+                
+            </a>
+            <h1 class="song_name" id="song_name" >歌曲名：{{song_name}}</h1>
+            <h1 class="song_info">歌手：{{singer_name}}</h1>
+            <h1 class="song_info">{{album_info}}</h1>
+            <div class="music-container" id="music-container">
+                <!-- 音乐信息 -->
+                <div class="music-info">
+                    <!-- 音乐标题 -->
+                    <h4 id="title"></h4>
+                    <!-- 音乐播放进度条 -->
+                    <div class="progress-container" id="progress-container">
+                        <div class="progress" id="progress"></div>
+                    </div>
+                </div>
+        
+                <!-- 默认第一首音乐 -->
+                <audio src="/static/music/{{song_name}}}.mp3" id="audio" data-data='{{ song_list|safe }}' ></audio>
+        
+                <!-- 音乐封面 -->
+
+                <!-- 播放控制 -->
+                <div class="navigation">
+                    <a href="/song_detail/{% tri_filter_back change_list song_list2 song_name 'number' %}">
+                        <button id="prev" class="action-btn">
+                            <i class="fas fa-backward"></i>
+                        </button>
+                    </a>
+                    <button id="play" class="action-btn action-btn-big">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <a href="/song_detail/{% tri_filter_forward change_list song_list2 song_name 'number' %}">
+                        <button id="next" class="action-btn">
+                            <i class="fas fa-forward"></i>
+                        </button>
+                    </a>
+                </div>
+
+            </div>
+            <div><a href="/"><h1 class="back">
+                    首页
+                </h1></a></div>
+
+            
+        </div>
+        <div class="div3"> 
+            <h1 class="title">评论</h1>
+            <div id="id-scroll-div" class="list-content" >
+                <div id="id-scroll-item1" style="width: 100%;">
+                    {% for i,j in remark %}
+                    <div style="margin: 1px 2px;line-height: 40px;"> <span class="comment">{{j}}:<p class="p_com">{{i}}</p> </span></div>
+                    {% endfor %}
+                </div>
+                <div style="width: 100%;">
+                    {% for i,j in remark %}
+                    <div style="margin: 10px 4px;line-height: 40px;"> <span class="comment">{{j}}:<p class="p_com">{{i}}</p> </span></div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="echarts">
+                <div class="echarts_pic" id="linear" style="width: 220px; height : 300px;margin-top: 40px;  "></div>
+                <div class="echarts_pic" id="linear_2" style="width: 300px; height : 300px;"></div>
+            </div>
+        </div>
+        <div class="div4">
+            <h1 class="title">词云</h1>
+            <div class="wordcloud_contain"  >
+                <img class="wordcloud" src="/static/wordcloud/{{song_name}}/{{song_name}}.png" alt="">
+            </div>
+            <div class="echarts">
+                <div class="geo" style="width: 400px; height : 400px;"></div>
+            </div>
+        </div>
+
+        </div> 
+        <div class="bg" style="background: url({{img_url}}) no-repeat;     background-size: cover;     background-position: center;"></div>
+        <div class="bg-mask"></div>
+        <script type="text/javascript">
+            var chartDom = document.getElementById('linear');
+            var myChart = echarts.init(chartDom);
+            var option;
+            var data = JSON.parse('{{ emotion|safe }}')
+            option = {
+                title:{
+                    text:"歌曲评价情感倾向",
+                    top:"%60",
+                    textStyle:{
+                        color:"hsla(0,0%,88.2%,.8)"
+                    }
+                },
+              tooltip: {
+                trigger: 'item'
+              },
+              legend: {
+                top: '10%',
+                left: 'center'
+              },
+              series: [
+                {
+                  name: '情感类型',
+                  type: 'pie',
+                  radius: ['40%', '70%'],
+                  avoidLabelOverlap: false,
+                  itemStyle: {
+                    borderRadius: 30,
+                    borderColor: '#fff',
+                    borderWidth: 0
+                  },
+                  label: {
+                    show: false,
+                    position: 'top'
+                  },
+                  emphasis: {
+                    label: {
+                      show: true,
+                      fontSize: 40,
+                      fontWeight: 'bold'
+                    }
+                  },
+                  labelLine: {
+                    show: false
+                  },
+                  data: [
+                    { value: data.乐_num, name: '乐' },
+                    { value: data.好_num, name: '好' },
+                    { value: data.怒_num, name: '怒' },
+                    { value: data.哀_num, name: '哀' },
+                    { value: data.惧_num, name: '惧' },
+                      { value: data.恶_num, name: '恶' },
+                      { value: data.惊_num, name: '惊' }
+                      // {value:123,name:'1'},
+                      // {value:123, name:'3'},
+                      // {value:123,name:'2'},
+                  ]
+                }
+              ]
+            };
+            myChart.setOption(option);
+        </script>
+        <script type="text/javascript">
+            var chartDom = document.getElementById('linear_2');
+            var myChart = echarts.init(chartDom);
+            var option;
+
+            let review = JSON.parse('{{ times|safe }}');//从后端拿取数据
+            let times = [];
+            let datas = [];
+            let temp = [];
+            for(var item in review){
+                temp.push([item,review[item]])
+            }
+            temp = temp.sort((x,y)=>{
+                return parseInt(x[0])-parseInt(y[0]);
+            })
+            for (var i=0;i<temp.length;i++){
+                // console.log(temp[i][1])
+                datas.push(temp[i][1])
+                times.push(temp[i][0])
+            }//将数据序列化：变成echats能读取的格式
+            option = {
+                 title:{//标题
+                    text:"评论时间分布",
+                    top:"%20",//位置
+                    textStyle:{
+                        color:"hsla(0,0%,88.2%,.8)"//字体颜色
+                    }
+                },
+              tooltip: {//鼠标放置在图上的效果
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow'
+                }
+              },
+              grid: {//网格
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+              },
+              xAxis: [//x轴
+                {
+                  type: 'category',
+                  data: times,//后端的数据
+                  axisTick: {
+                    alignWithLabel: true
+                  }
+                }
+              ],
+              yAxis: [
+                {
+                  type: 'value'
+                }
+              ],
+              series: [
+                {
+                  name: 'Direct',
+                  type: 'bar',
+                  barWidth: '60%',
+                  data: datas//后端的数据
+                }
+              ]
+            };
+
+            option && myChart.setOption(option);
+
+        </script>
+    <script type="text/javascript">
+        var maps=echarts.init(document.querySelector(".geo"));
+        var tmp = JSON.parse('{{review_num | safe}}');
+        var dat=[]
+        for (var pro in tmp){
+            dat.push({name:pro,value:tmp[pro]})//处理后端的数据，让echarts能够识别。
+        }
+        option = {
+        title:{
+            text:"评论省份分布",
+            top:"10%",
+            textStyle:{
+                color:"hsla(0,0%,88.2%,.8)"
+            }
+        },
+          tooltip: {
+              trigger: 'item'
+          },
+          legend: { //类别标识
+              orient: 'vertical',
+              left: 'left',
+              data: ['']
+          },
+          visualMap: {//标识的类型
+              type: 'piecewise',
+              pieces: [
+                  {min: 51, max: 100, label: '51-100', color: '#974236'},
+                  {min: 10, max: 50, label: '10-50', color: '#ee7263'},
+                  {min: 1, max: 9, label: '1-9', color: '#f5bba7'},
+                  {min:0,max:0,label:"0",color:"#10AEB5"},
+              ],
+              color: ['#E0022B', '#E09107', '#A3E00B'],
+              textStyle:{color:"#fff"},
+          },
+
+          toolbox: {//默认设置
+              show: true,
+              orient: 'vertical',
+              left: 'right',
+              top: 'center',
+              feature: {
+                  mark: {show: true},
+                  dataView: {show: true, readOnly: false},
+                  restore: {show: true},
+                  saveAsImage: {show: true}
+              }
+          },
+          roamController: {
+              show: true,
+              left: 'right',
+              mapTypeControl: {
+                  'china': true
+              }
+          },
+          series: [
+              {
+                  name: '人数',
+                  type: 'map',
+                  mapType: 'china',
+                  roam: false,
+                  label: {
+                      show: true,
+                      color: 'rgb(249, 249, 249)'
+                  },
+                  data:dat//上面处理好的数据
+              }
+          ]
+      };
+      option && maps.setOption(option)
+        // window.addEventListener("resize", ()=>{maps.resize()});
+    </script>
+        <script src="/static/js/player.js"></script>
+        <script src="/static/js/scoller.js"></script>
+</body>
+</html>

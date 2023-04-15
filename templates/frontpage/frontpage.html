@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/song_list.css">
+</head>
+<body>
+
+<ul class="aligned-list">
+  {% for i in range %}
+    <li>{{ i }}</li>
+  {% endfor %}
+</ul>
+
+{% for name,j in info.items %}
+<ul class="list_song">
+    <h1>{{name}}</h1>
+    {% for i in j %}
+        <li>
+            <a href="song_detail/{{i.song_name}}/{{i.singer}}/{{name}}">
+                <img class="img" src={{ i.img_url }}>&nbsp;&nbsp;{{i.song_name}}</a>
+        </li>
+    {% endfor %}
+</ul>
+{% endfor %}
+</body>
+</html>

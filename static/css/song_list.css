@@ -1,0 +1,74 @@
+/* 设置 body 的基本样式 */
+body {
+  /*background-image: url("/static/img/Mojito.jpg");*/
+  background-color: rgba(63, 225, 203, 0.51);
+  background-repeat: repeat;
+  background-position: center top;
+  display: flex; /* 将 body 设置为 flex 容器 */
+  justify-content: center; /* 水平居中 flex 子元素 */
+  align-items: center; /* 垂直居中 flex 子元素 */
+
+  margin: 0; /* 去除 body 的默认外边距 */
+}
+
+/* 设置列表的样式 */
+.list_song {
+  display: flex; /* 将列表项设置为 flex 容器 */
+  flex-direction: column; /* 设置 flex 子元素垂直排列 */
+  width: 25%; /* 设置列表宽度为 25% */
+  margin: 5px; /* 去除列表的默认外边距 */
+}
+
+.list_song h1 {
+  margin: 0; /* 去除标题的默认外边距 */
+}
+
+.list_song li {
+    /*list-style: none; !* 去除 li 的默认圆点 *!*/
+    width: 100%; /* 设置 li 宽度为 100% */
+    height: 50px; /* 设置 li 高度为 50px */
+    display: flex; /* 将 li 设置为 flex 容器 */
+    align-items: center; /* 垂直居中 flex 子元素 */
+    justify-content: left; /* 水平居中 flex 子元素 */
+
+    border: 1.5px solid black;
+    border-radius: 20px 20px 20px 20px;
+    margin: 10px 0;
+}
+
+.list_song a {
+    /*list-style: disc; !* 去除 li 的默认圆点 *!*/
+    text-decoration: none; /* 去除链接的下划线 */
+    color: black; /* 设置链接颜色为黑色 */
+    text-align: center; /* 文本居中对齐 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.list_song img {
+    width: 40px;
+    height: 40px;
+}
+
+.img{
+    padding-left: 20px;
+}
+
+.list_song li p.number {
+  margin: 0 10px 0 0;
+  align-self: flex-start;
+}
+
+.aligned-list {
+    list-style: none;
+    position: absolute;
+    top:10px;
+    left: -80px;
+
+}
+.aligned-list li {
+  margin: 51px;
+  padding: 0;
+}
