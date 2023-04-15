@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-1o48ic3*=qbqi5dfmadc!t$#ud@rsjw$d^z2y@%kxki!c8*%rj'
+SECRET_KEY = ""
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -76,17 +76,8 @@ WSGI_APPLICATION = 'WebSet.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'QQmusic',
-        'USER': 'QQmusic',
-        'PASSWORD': 'dyz123',
-        'HOST': '43.142.31.98',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'utf8',
-        },
-    }
+
+    
 }
 
 
